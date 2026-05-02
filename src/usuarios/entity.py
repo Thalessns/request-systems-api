@@ -31,7 +31,6 @@ class Usuarios(Base):
         ForeignKey("usuarios.num_matricula"),
         nullable=True,
     )
-    status_cadastro = Column(String, nullable=True)
     ultima_atualizacao = Column(DateTime, nullable=True)
     status_cadastro = Column(String, default="Pendente", nullable=False)
 
