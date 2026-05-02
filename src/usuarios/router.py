@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, status
 
-from src.usuarios.schemas import Usuario, UsuarioCriar
+from src.usuarios.schemas import Usuario, UsuarioCriar, UsuarioLogin
 from src.usuarios.service import UsuarioService
 
 usuario_router = APIRouter(prefix="/usuarios")
@@ -19,6 +19,16 @@ async def criar_usuario(usuario: UsuarioCriar) -> Usuario:
         Usuario: Usuário criado.
     """
     return await UsuarioService.criar_usuario(usuario)
+
+
+@usuario_router.put("/login", status_code=status.HTTP_200_OK)
+async def login(dados: UsuarioLogin):
+    """Endpoint de login de usuário.
+
+    Args:
+        dados (UsuarioLogin): Usuário a ser logado.
+    """
+    await UsuarioService.login(dados)
 
 
 @usuario_router.get("/", status_code=status.HTTP_200_OK)

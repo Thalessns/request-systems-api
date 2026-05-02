@@ -1,9 +1,9 @@
 """Modulo para definição da tabela de usuário."""
 
-from datetime import datetime, UTC
 from sqlalchemy import Column, String, DateTime, ForeignKey
 
 from src.database.database import Base
+from src.app.utils import obter_agora_br
 
 
 class Usuarios(Base):
@@ -20,7 +20,7 @@ class Usuarios(Base):
     status_usuario = Column(String, nullable=False)
     senha_hash = Column(String, nullable=False)
     ultimo_login = Column(DateTime, nullable=True)
-    dt_criacao = Column(DateTime, nullable=False, default=datetime.now(UTC))
+    dt_criacao = Column(DateTime, nullable=False, default=obter_agora_br)
     criado_por = Column(
         String(5),
         ForeignKey("usuarios.num_matricula"),

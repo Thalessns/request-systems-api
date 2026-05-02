@@ -17,3 +17,10 @@ class UsuarioJaCadastradoException(CustomBaseException):
 
     STATUS_CODE = status.HTTP_400_BAD_REQUEST
     DETAIL = "Usuario com '{campo}' = '{valor}' ja está cadastrado."
+
+
+class CredenciaisInvalidasException(CustomBaseException):
+    """Exceção lançada quando as credenciais são inválidas."""
+
+    STATUS_CODE = status.HTTP_401_UNAUTHORIZED
+    DETAIL = "Credenciais inválidas."

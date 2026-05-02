@@ -1,9 +1,10 @@
 """Modulo para os schemas de usuario."""
 
-from datetime import datetime, UTC
-from pydantic import BaseModel, EmailStr, field_validator, ValidationInfo
+from datetime import datetime
+from pydantic import BaseModel, EmailStr, field_validator, ValidationInfo, Field
 
 from src.app.exceptions import CampoInvalidoException
+from src.app.utils import obter_agora_br
 from src.usuarios.senha import SenhaHandler
 
 
@@ -19,7 +20,7 @@ class UsuarioCriar(BaseModel):
     status_usuario: str
     senha_hash: str
     criado_por: str
-    dt_criacao: datetime = datetime.now(UTC)
+    dt_criacao: datetime = Field(default_factory=obter_agora_br)
 
     @field_validator("nome_usuario", mode="before")
     def validar_nome(cls, value: str) -> str:
@@ -80,9 +81,7 @@ class UsuarioCriar(BaseModel):
             CampoInvalidoException: Se a area estiver vazia.
         """
         if not value or len(value.strip()) == 0:
-            raise CampoInvalidoException(
-                campo="area", mensagem="Não pode estar vazio."
-            )
+            raise CampoInvalidoException(campo="area", mensagem="Não pode estar vazio.")
         return value
 
     @field_validator("senha_hash", mode="before")
@@ -121,3 +120,11 @@ class Usuario(BaseModel):
     ultimo_login: datetime | None = None
     atualizado_por: str | None = None
     status_cadastro: str | None = None
+
+
+class UsuarioLogin(BaseModel):
+    """Schema de login."""
+
+    num_matricula: str | None = None
+    email: EmailStr | None = None
+    senha: str

@@ -4,11 +4,18 @@ from sqlalchemy.exc import IntegrityError
 
 from src.database.database import Database
 from src.usuarios.entity import tabela_usuarios
-from src.usuarios.schemas import Usuario, UsuarioCriar
+from src.usuarios.schemas import (
+    Usuario,
+    UsuarioCriar,
+    UsuarioLogin,
+)
 from src.usuarios.exceptions import (
     UsuarioNaoEncontradoException,
     UsuarioJaCadastradoException,
+    CredenciaisInvalidasException,
 )
+from src.usuarios.senha import SenhaHandler
+from src.app.utils import obter_agora_br
 
 
 class UsuarioService:
@@ -39,6 +46,39 @@ class UsuarioService:
                     campo="num_matricula", valor=user.num_matricula
                 )
         return Usuario(**user.model_dump())
+
+    @classmethod
+    async def login(cls, dados: UsuarioLogin) -> None:
+        """Realiza o login do usuário.
+
+        Args:
+            dados (UsuarioLogin): Dados do usuário a ser logado.
+
+
+        """
+        query = tabela_usuarios.select()
+        campo = ""
+        if dados.num_matricula:
+            campo = "matricula"
+            query = query.where(tabela_usuarios.c.num_matricula == dados.num_matricula)
+        elif dados.email:
+            campo = "email"
+            query = query.where(tabela_usuarios.c.email == dados.email)
+        if campo == "":
+            raise CredenciaisInvalidasException()
+
+        usuario = await Database.fetch_one(query)
+        if not usuario:
+            raise CredenciaisInvalidasException()
+        if not SenhaHandler.verificar_senha(dados.senha, usuario.get("senha_hash")):
+            raise CredenciaisInvalidasException()
+
+        query_update = (
+            tabela_usuarios.update()
+            .where(tabela_usuarios.c.num_matricula == usuario.get("num_matricula"))
+            .values(ultimo_login=obter_agora_br())
+        )
+        await Database.execute(query_update)
 
     @classmethod
     async def buscar_usuarios(cls) -> list[Usuario]:

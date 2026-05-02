@@ -22,5 +22,3 @@ async def criar_admin() -> None:
         await UsuarioService.buscar_usuario_matricula("99999")
     except UsuarioNaoEncontradoException:
         await UsuarioService.criar_usuario(admin)
-    
-    
