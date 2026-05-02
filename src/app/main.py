@@ -5,12 +5,14 @@ from contextlib import asynccontextmanager
 
 from src.database.database import Database
 from src.usuarios.router import usuario_router
+from src.usuarios.utils import criar_admin
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context for the application."""
     await Database.init_models()
+    await criar_admin()
     yield
 
 
