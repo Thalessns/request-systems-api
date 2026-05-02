@@ -6,6 +6,7 @@ from src.database.database import Database
 from src.usuarios.entity import tabela_usuarios
 from src.usuarios.schemas import (
     Usuario,
+    UsuarioAtualizar,
     UsuarioCriar,
     UsuarioLogin,
 )
@@ -131,3 +132,35 @@ class UsuarioService:
                 campo="num_matricula", valor=num_matricula
             )
         return Usuario(**usuario)
+
+    @classmethod
+    async def atualizar_usuario(
+        cls, num_matricula: str, dados: UsuarioAtualizar
+    ) -> Usuario:
+        """Atualiza os dados de um usuário.
+
+        Args:
+            num_matricula (str): Matrícula do usuário a ser atualizado.
+            dados (UsuarioAtualizar): Dados a serem atualizados.
+
+        Returns:
+            Usuario: Usuário atualizado.
+
+        Raises:
+            UsuarioNaoEncontradoException: Se o usuário não for encontrado.
+        """
+        await cls.buscar_usuario_matricula(num_matricula)
+
+        valores_atualizados = dados.model_dump(exclude_none=True)
+        valores_atualizados["ultima_atualizacao"] = obter_agora_br()
+        valores_atualizados["status_cadastro"] = "Ok"
+
+        query = (
+            tabela_usuarios.update()
+            .where(tabela_usuarios.c.num_matricula == num_matricula)
+            .values(**valores_atualizados)
+        )
+        await Database.execute(query)
+
+        usuario_atualizado = await cls.buscar_usuario_matricula(num_matricula)
+        return usuario_atualizado
