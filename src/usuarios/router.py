@@ -21,7 +21,7 @@ async def criar_usuario(usuario: UsuarioCriar) -> Usuario:
     return await UsuarioService.criar_usuario(usuario)
 
 
-@usuario_router.put("/{num_matricula}", status_code=status.HTTP_200_OK)
+@usuario_router.put("/", status_code=status.HTTP_200_OK)
 async def atualizar_usuario(num_matricula: str, dados: UsuarioAtualizar) -> Usuario:
     """Endpoint de atualização de usuário.
 
