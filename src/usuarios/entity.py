@@ -11,6 +11,16 @@ class Usuarios(Base):
 
     __tablename__ = "usuarios"
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    matricula = Column(String(5), unique=True, nullable=False)
+    nome = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    equipe = Column(String(50), nullable=False)
+=======
+>>>>>>> Stashed changes
     nome_usuario = Column(String, nullable=False)
     email = Column(String, nullable=False)
     num_matricula = Column(String(5), primary_key=True)
@@ -31,7 +41,13 @@ class Usuarios(Base):
         ForeignKey("usuarios.num_matricula"),
         nullable=True,
     )
+<<<<<<< Updated upstream
     status_cadastro = Column(String, nullable=True)
+=======
+    ultima_atualizacao = Column(DateTime, nullable=True)
+    status_cadastro = Column(String, default="Pendente", nullable=False)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 
 tabela_usuarios = Usuarios.__table__

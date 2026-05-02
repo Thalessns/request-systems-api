@@ -83,6 +83,11 @@ class UsuarioCriar(BaseModel):
         if not value or len(value.strip()) == 0:
             raise CampoInvalidoException(campo="area", mensagem="Não pode estar vazio.")
         return value
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 
     @field_validator("senha_hash", mode="before")
     def validar_senha(cls, value: str) -> str:
@@ -119,6 +124,10 @@ class Usuario(BaseModel):
     dt_criacao: datetime
     ultimo_login: datetime | None = None
     atualizado_por: str | None = None
+<<<<<<< Updated upstream
+=======
+    ultima_atualizacao: datetime | None = None
+>>>>>>> Stashed changes
     status_cadastro: str | None = None
 
 
@@ -128,3 +137,7 @@ class UsuarioLogin(BaseModel):
     num_matricula: str | None = None
     email: EmailStr | None = None
     senha: str
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
