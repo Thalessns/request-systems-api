@@ -1,6 +1,6 @@
 """Modulo para definição da tabela de usuário."""
 
-from sqlalchemy import Column, String, DateTime, ForeignKey
+from sqlalchemy import Column, String, DateTime, ForeignKeyConstraint
 
 from src.database.database import Base
 from src.app.utils import obter_agora_br
@@ -21,18 +21,15 @@ class Usuarios(Base):
     senha_hash = Column(String, nullable=False)
     ultimo_login = Column(DateTime, nullable=True)
     dt_criacao = Column(DateTime, nullable=False, default=obter_agora_br)
-    criado_por = Column(
-        String(5),
-        ForeignKey("usuarios.num_matricula"),
-        nullable=False,
-    )
-    atualizado_por = Column(
-        String(5),
-        ForeignKey("usuarios.num_matricula"),
-        nullable=True,
-    )
+    criado_por = Column(String(5), nullable=False)
+    atualizado_por = Column(String(5), nullable=True)
     ultima_atualizacao = Column(DateTime, nullable=True)
     status_cadastro = Column(String, default="Pendente", nullable=False)
+
+    __table_args__ = (
+        ForeignKeyConstraint(['criado_por'], ['usuarios.num_matricula'], name='fk_usuarios_criado_por'),
+        ForeignKeyConstraint(['atualizado_por'], ['usuarios.num_matricula'], name='fk_usuarios_atualizado_por')
+    )
 
 
 tabela_usuarios = Usuarios.__table__

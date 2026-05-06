@@ -4,6 +4,7 @@ from fastapi import APIRouter, status
 
 from src.usuarios.schemas import Usuario, UsuarioAtualizar, UsuarioCriar, UsuarioLogin
 from src.usuarios.service import UsuarioService
+from src.databricks.service import DatabricksService
 
 usuario_router = APIRouter(prefix="/usuarios")
 
@@ -52,6 +53,7 @@ async def buscar_usuarios() -> list[Usuario]:
     Returns:
         list[Usuario]: Lista de usuários.
     """
+    DatabricksService.show_thins()
     return await UsuarioService.buscar_usuarios()
 
 
