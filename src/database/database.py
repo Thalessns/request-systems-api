@@ -7,9 +7,9 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.engine import CursorResult
 
-from src.database.settings import database_connection
+from src.database.settings import database_connection, database_settings
 
-Base = declarative_base(metadata=MetaData())
+Base = declarative_base(metadata=MetaData(schema=database_settings.DATABRICKS_SCHEMA))
 
 
 class Database:
@@ -52,18 +52,20 @@ class Database:
         Args:
             query (): A query a ser executada.
         """
+
         def func(query) -> CursorResult:
-            """"Função para executar a query de forma síncrona.
-            
+            """ "Função para executar a query de forma síncrona.
+
             Args:
                 query (): A query a ser executada.
-            
+
             Returns:
                 CursorResult: O resultado da execução da query.
             """
             with cls.engine.begin() as conn:
                 cursor = conn.execute(query)
                 return cursor
+
         return await asyncio.to_thread(func, query)
 
     @classmethod
@@ -73,6 +75,7 @@ class Database:
         Args:
             queries (): Lista de queries a serem executadas.
         """
+
         def func(queries):
             """Executa várias queries em uma transação.
 
@@ -82,6 +85,7 @@ class Database:
             with cls.engine.begin() as conn:
                 for query in queries:
                     conn.execute(query)
+
         await asyncio.to_thread(func, queries)
 
     @classmethod

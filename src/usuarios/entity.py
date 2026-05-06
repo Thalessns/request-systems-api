@@ -27,8 +27,18 @@ class Usuarios(Base):
     status_cadastro = Column(String, default="Pendente", nullable=False)
 
     __table_args__ = (
-        ForeignKeyConstraint(['criado_por'], ['usuarios.num_matricula'], name='fk_usuarios_criado_por'),
-        ForeignKeyConstraint(['atualizado_por'], ['usuarios.num_matricula'], name='fk_usuarios_atualizado_por')
+        ForeignKeyConstraint(
+            ["criado_por"],
+            ["usuarios.num_matricula"],
+            name="fk_usuarios_criado_por",
+            use_alter=True,
+        ),
+        ForeignKeyConstraint(
+            ["atualizado_por"],
+            ["usuarios.num_matricula"],
+            name="fk_usuarios_atualizado_por",
+            use_alter=True,
+        ),
     )
 
 
