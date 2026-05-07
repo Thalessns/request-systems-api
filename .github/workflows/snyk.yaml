@@ -35,7 +35,7 @@ jobs:
 
       # 5. Escanear vulnerabilidades nas bibliotecas (Open Source / SCA)
       - name: Snyk Open Source Scan
-        uses: snyk/actions/python-3.10@master
+        uses: snyk/actions/python-3.12@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -46,6 +46,5 @@ jobs:
         uses: snyk/actions/python@master
         with:
           command: monitor
-          args: --file=pyproject.toml
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
