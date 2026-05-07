@@ -39,6 +39,9 @@ jobs:
 
       # 5. Monitorar vulnerabilidades nas bibliotecas
       - name: Snyk Monitor
-        run: snyk monitor
+        uses: snyk/actions/python@master
+        with:
+          command: monitor
+          args: --file=pyproject.toml
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
