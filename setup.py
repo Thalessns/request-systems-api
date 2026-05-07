@@ -1,0 +1,24 @@
+"""Arquivo de setup para o projeto."""
+
+import setuptools
+
+setuptools.setup(
+    name="request-systems-api",
+    version="0.2.0",
+    requires_python=">=3.12",
+    dependencies=[
+        "fastapi>=0.136.1",
+        "pydantic[email]>=2.13.3",
+        "pydantic-settings>=2.14.0",
+        "ruff>=0.15.12",
+        "sqlalchemy>=2.0.49",
+        "uvicorn>=0.46.0",
+        "pwdlib[argon2]>=0.3.0",
+        "databricks-sql-connector>=4.2.6",
+        "databricks-sqlalchemy>=2.0.9",
+        "setuptools>=82.0.1",
+    ],
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+    python_requires=">=3.12",
+)
