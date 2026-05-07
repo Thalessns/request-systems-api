@@ -29,7 +29,11 @@ jobs:
           pip install uv
           uv sync
 
-      # 4. Escanear vulnerabilidades nas bibliotecas (Open Source / SCA)
+      # 4. Criar requirements.txt
+      - name: Generate requirements.txt
+        run: uv export --format requirements-txt > requirements.txt
+
+      # 5. Escanear vulnerabilidades nas bibliotecas (Open Source / SCA)
       - name: Snyk Open Source Scan
         uses: snyk/actions/python-3.10@master
         env:
@@ -37,7 +41,7 @@ jobs:
         with:
           args: --severity-threshold=high --all-projects
 
-      # 5. Monitorar vulnerabilidades nas bibliotecas
+      # 6. Monitorar vulnerabilidades nas bibliotecas
       - name: Snyk Monitor
         uses: snyk/actions/python@master
         with:
