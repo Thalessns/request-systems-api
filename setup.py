@@ -5,7 +5,7 @@ import setuptools
 setuptools.setup(
     name="request-systems-api",
     version="0.2.0",
-    requires_python=">=3.12",
+    requires_python=">=3.12, <4.0.0",
     dependencies=[
         "fastapi>=0.136.1",
         "pydantic[email]>=2.13.3",
@@ -20,5 +20,4 @@ setuptools.setup(
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    python_requires=">=3.12",
 )
