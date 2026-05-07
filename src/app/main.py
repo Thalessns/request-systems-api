@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Request Systems API", version="0.1.0", prefix="/api", lifespan=lifespan
+    title="Request Systems API", version="0.2.0", prefix="/api", lifespan=lifespan
 )
 
 
