@@ -17,6 +17,7 @@ setuptools.setup(
         "databricks-sql-connector>=4.2.6",
         "databricks-sqlalchemy>=2.0.9",
         "setuptools>=82.0.1",
+        "urllib3>=2.7.0"
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
